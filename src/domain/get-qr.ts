@@ -10,7 +10,7 @@ export async function getQR(
   let sent = false;
   const client = new Client({
     puppeteer: {
-      browserWSEndpoint: 'ws://localhost:3000',
+      browserWSEndpoint: process.env.PUPPETEER_URL,
     } as unknown,
   });
 
@@ -18,7 +18,7 @@ export async function getQR(
     if (closed) return;
     console.log('timeout');
     client.destroy();
-  }, 1000 * parseInt(process.env.CLIENT_EXTRA_TIMEOUT_SEC || '5'));
+  }, 1000 * parseInt(process.env.QR_EXTRA_TIMEOUT_SEC || '5'));
 
   try {
     client.on('authenticated', (session) => {

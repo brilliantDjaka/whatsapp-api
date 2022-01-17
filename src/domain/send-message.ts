@@ -16,7 +16,7 @@ export async function sendMessage(
   const client = new Client({
     session: session,
     puppeteer: {
-      browserWSEndpoint: 'ws://localhost:3000',
+      browserWSEndpoint: process.env.PUPPETEER_URL,
     } as unknown,
   });
 
