@@ -21,11 +21,15 @@ interface Dto {
 export async function sendMessage(req: Request, res: Response) {
   const payload: Dto = validate(dto, req.body);
 
-  await sendMessageDomain.sendMessage(
-    req['waSession'] as ClientSession,
-    payload.phone,
-    payload.text,
-  );
+  try {
+    await sendMessageDomain.sendMessage(
+      req['waSession'] as ClientSession,
+      payload.phone,
+      payload.text,
+    );
+  } catch (error) {
+    return res.sendStatus(500);
+  }
 
   return res.send('success');
 }
