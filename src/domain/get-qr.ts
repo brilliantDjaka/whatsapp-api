@@ -40,6 +40,8 @@ export async function getQR(
     });
     await client.initialize();
   } catch (error) {
+    console.log(error);
+    console.log(error.toString());
     console.log('error skipped');
     closed = true;
   }
