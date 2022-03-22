@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Response } from 'express';
-import { Client } from 'whatsapp-web.js';
+import { Client, LegacySessionAuth } from 'whatsapp-web.js';
 
 export async function getQR(
   successWebHook: string,
@@ -9,6 +9,7 @@ export async function getQR(
   let closed = false;
   let sent = false;
   const client = new Client({
+    authStrategy: new LegacySessionAuth(),
     puppeteer: {
       browserWSEndpoint: process.env.PUPPETEER_URL,
     } as unknown,
@@ -22,6 +23,8 @@ export async function getQR(
 
   try {
     client.on('authenticated', (session) => {
+      console.log(session);
+      
       axios
         .post(successWebHook, { session })
         .then((_) => console.log('success post qr action'))
